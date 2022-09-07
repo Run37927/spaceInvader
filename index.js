@@ -27,7 +27,7 @@ class Player {
 
     }
 
-    draw(){
+    draw() {
         // c.fillStyle = 'red'
         // c.fillRect(this.position.x, this.position.y, this.width, this.height)
         if (this.image) {
@@ -39,6 +39,11 @@ class Player {
                 this.height
             )
         }
+    };
+
+    update() {
+        this.draw()
+        this.position.x += this.velocity.x
     }
 }
 
@@ -49,7 +54,7 @@ function animate() {
     requestAnimationFrame(animate);
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
-    player.draw();
+    player.update();
 }
 animate()
 
