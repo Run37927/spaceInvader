@@ -52,3 +52,17 @@ function animate() {
     player.draw();
 }
 animate()
+
+window.addEventListener('keydown', ({key}) => {
+    switch (key) {
+        case 'ArrowLeft':
+            console.log("left")
+            break;
+        case 'ArrowRight':
+            console.log("right")
+            break;
+        case ' ':
+            console.log("space bar")
+            break;
+    }
+})
