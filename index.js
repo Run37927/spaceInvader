@@ -107,6 +107,30 @@ class InvaderProjectile {
     }
 };
 
+class Particle {
+    constructor({position, velocity, radius}) {
+        this.position = position
+        this.velocity = velocity
+
+        this.radius = radius
+        this.color = color
+    }
+
+    draw() {
+        c.beginPath()
+        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
+        c.fillStyle = this.color
+        c.fill()
+        c.closePath()
+    }
+
+    update() {
+        this.draw()
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+    }
+};
+
 class Invader {
     constructor({position}) {
         this.velocity = {
@@ -203,7 +227,7 @@ class Grid {
             this.velocity.y = 30;
         }
     }
-}
+};
 
 
 const player = new Player()
