@@ -169,8 +169,10 @@ class Grid {
         }
     }
 }
+
+
 const player = new Player()
-const projectfiles = []
+const projectiles = []
 const grids = []
 const keys = {
     arrowLeft: {
@@ -185,16 +187,19 @@ const keys = {
 }
 
 let frames = 0;
+let randomInterval = Math.floor(Math.random() * 500 + 500)
+
+
 function animate() {
     requestAnimationFrame(animate);
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update();
 
-    projectfiles.forEach((projectile, index) => {
+    projectiles.forEach((projectile, index) => {
         if (projectile.position.y + projectile.radius <=0) {
             setTimeout(() => {
-                projectfiles.splice(index, 1)
+                projectiles.splice(index, 1)
             }, 0);
         } else {
             projectile.update()
@@ -203,8 +208,26 @@ function animate() {
 
     grids.forEach(grid => {
         grid.update();
-        grid.invaders.forEach(invader => {
+        grid.invaders.forEach((invader, i) => {
             invader.update({velocity: grid.velocity})
+
+            projectiles.forEach((projectile, j)=> {
+                if (projectile.position.y - projectile.radius 
+                    <= invader.position.y + invader.height &&
+                    projectile.position.x + projectile.radius >=
+                    invader.position.x && projectile.position.x - projectile.radius <=
+                    invader.position.x && projectile.position.y+ projectile.radius >= invader.position.y) {
+                        setTimeout(() => {
+                            const invaderFound = grid.invaders.find(invader2 => invader2 === invader)
+                            const projectileFound = projectiles.find(projectile2 => projectile2 === projectile)
+
+                            if (invaderFound && projectileFound) {
+                                grid.invaders.splice(i, 1)
+                                projectiles.splice(j, 1)
+                            }
+                        }, 0);
+                }
+            })
         })
     })
 
@@ -219,8 +242,11 @@ function animate() {
         player.rotation = 0;
     }
 
-    if (frames % 1000 === 0) {
+    // spawning enemies
+    if (frames %  randomInterval === 0) {
         grids.push(new Grid());
+        randomInterval = Math.floor(Math.random() * 500 + 500);
+        frames = 0
     }
     frames ++;
 }
@@ -238,7 +264,7 @@ window.addEventListener('keydown', ({key}) => {
             break;
         case ' ':
             // console.log("space bar")
-            projectfiles.push(
+            projectiles.push(
                 new Projectile({
                 position: {
                     x: player.position.x + player.width/2,
@@ -246,7 +272,7 @@ window.addEventListener('keydown', ({key}) => {
                 },
                 velocity: {
                     x: 0,
-                    y: -10
+                    y: -20
                 }
             }))
             break;
