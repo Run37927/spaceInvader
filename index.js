@@ -107,7 +107,9 @@ function animate() {
 
     projectfiles.forEach((projectile, index) => {
         if (projectile.position.y + projectile.radius <=0) {
-            projectfiles.splice(index, 1)
+            setTimeout(() => {
+                projectfiles.splice(index, 1)
+            }, 0);
         } else {
             projectile.update()
         }
