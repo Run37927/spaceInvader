@@ -86,13 +86,11 @@ class Projectile {
 }
 
 class Invader {
-    constructor() {
+    constructor({position}) {
         this.velocity = {
             x: 0,
             y: 0
         }
-
-        this.rotation = 0
         
         const image = new Image()
         image.src = './img/invader.png'
@@ -103,8 +101,8 @@ class Invader {
             this.height = image.height * scale
 
             this.position = {
-                x: canvas.width / 2 - this.width/2,
-                y: canvas.height /2
+                x: position.x,
+                y: position.y
             }
         }
 
@@ -113,16 +111,6 @@ class Invader {
     draw() {
         // c.fillStyle = 'red'
         // c.fillRect(this.position.x, this.position.y, this.width, this.height)
-        c.save()
-        c.translate(
-            player.position.x + player.width/2, 
-            player.position.y + player.height/2
-            )
-        c.rotate(this.rotation)
-        c.translate(
-            -player.position.x - player.width/2, 
-            -player.position.y - player.height/2
-            )
 
         c.drawImage(
             this.image,
@@ -130,20 +118,49 @@ class Invader {
             this.position.y, 
             this.width, 
             this.height
-        )
-        c.restore()
-        
+        ) 
     };
 
     update() {
         if (this.image) {
             this.draw()
             this.position.x += this.velocity.x
+            this.position.y += this.velocity.y
         }
     }
 };
+
+class Gird {
+    constructor() {
+        this.position = {
+            x: 0,
+            y: 0
+        }
+
+        this.velocity = {
+            x: 0,
+            y: 0
+        }
+
+        this.invaders = []
+        for (let x=0; x< 10; x++) {
+            for (let y=0; y< 10; y++)
+            this.invaders.push(new Invader({
+                position: {
+                    x: x*30,
+                    y: y*30
+                }
+            }))
+        }
+    }
+
+    update(){
+
+    }
+}
 const player = new Player()
 const projectfiles = []
+const grids = [new Gird()]
 const keys = {
     arrowLeft: {
         pressed: false
@@ -170,6 +187,13 @@ function animate() {
         } else {
             projectile.update()
         }
+    })
+
+    grids.forEach(grid => {
+        grid.update();
+        grid.invaders.forEach(invader => {
+            invader.update()
+        })
     })
 
     if (keys.arrowLeft.pressed && player.position.x >=0) {
