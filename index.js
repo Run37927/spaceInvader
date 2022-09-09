@@ -127,7 +127,7 @@ class Invader {
     }
 };
 
-class Gird {
+class Grid {
     constructor() {
         this.position = {
             x: 0,
@@ -160,16 +160,18 @@ class Gird {
     update(){
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
+        this.velocity.y = 0
 
         if (this.position.x + this.width > canvas.width
             || this.position.x  <= 0) {
-            this.velocity.x = - this.velocity.x
+            this.velocity.x = - this.velocity.x;
+            this.velocity.y = 30;
         }
     }
 }
 const player = new Player()
 const projectfiles = []
-const grids = [new Gird()]
+const grids = []
 const keys = {
     arrowLeft: {
         pressed: false
@@ -182,6 +184,7 @@ const keys = {
     }
 }
 
+let frames = 0;
 function animate() {
     requestAnimationFrame(animate);
     c.fillStyle = 'black'
@@ -215,6 +218,11 @@ function animate() {
         player.velocity.x = 0;
         player.rotation = 0;
     }
+
+    if (frames % 1000 === 0) {
+        grids.push(new Grid());
+    }
+    frames ++;
 }
 animate()
 
