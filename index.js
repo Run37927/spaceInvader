@@ -105,8 +105,12 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update();
 
-    projectfiles.forEach(projectile => {
-        projectile.update()
+    projectfiles.forEach((projectile, index) => {
+        if (projectile.position.y + projectile.radius <=0) {
+            projectfiles.splice(index, 1)
+        } else {
+            projectile.update()
+        }
     })
 
     if (keys.arrowLeft.pressed && player.position.x >=0) {
@@ -125,15 +129,15 @@ animate()
 window.addEventListener('keydown', ({key}) => {
     switch (key) {
         case 'ArrowLeft':
-            console.log("left")
+            // console.log("left")
             keys.arrowLeft.pressed = true
             break;
         case 'ArrowRight':
-            console.log("right")
+            // console.log("right")
             keys.arrowRight.pressed = true
             break;
         case ' ':
-            console.log("space bar")
+            // console.log("space bar")
             projectfiles.push(
                 new Projectile({
                 position: {
@@ -142,7 +146,7 @@ window.addEventListener('keydown', ({key}) => {
                 },
                 velocity: {
                     x: 0,
-                    y: -5
+                    y: -10
                 }
             }))
             break;
@@ -153,15 +157,15 @@ window.addEventListener('keydown', ({key}) => {
 window.addEventListener('keyup', ({key}) => {
     switch (key) {
         case 'ArrowLeft':
-            console.log("left")
+            // console.log("left")
             keys.arrowLeft.pressed = false;
             break;
         case 'ArrowRight':
-            console.log("right")
+            // console.log("right")
             keys.arrowRight.pressed = false;
             break;
         case ' ':
-            console.log("space bar")
+            // console.log("space bar")
             break;
     }
 })
