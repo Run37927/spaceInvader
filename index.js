@@ -259,7 +259,7 @@ let frames = 0;
 let randomInterval = Math.floor(Math.random() * 500 + 500)
 let game = {
     over: false,
-    active: false
+    active: true
 }
 
 for (let i = 0; i < 100; i++) {
@@ -299,6 +299,8 @@ function createParticles({ object, color, fades }) {
 
 
 function animate() {
+    if (!game.active) return
+
     requestAnimationFrame(animate);
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -339,6 +341,10 @@ function animate() {
                 player.opacity = 0;
                 game.over = true;
             }, 0)
+
+            setTimeout(() => {
+                game.active = false;
+            }, 2000)
 
             createParticles({
                 object: player,
@@ -436,7 +442,7 @@ animate()
 
 window.addEventListener('keydown', ({ key }) => {
     if (game.over) return
-    
+
     switch (key) {
         case 'ArrowLeft':
             keys.arrowLeft.pressed = true
