@@ -1,5 +1,5 @@
 const scoreElement = document.querySelector('#scoreElement')
-console.log(scoreElement)
+const ending = document.querySelector('#ending')
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -347,6 +347,8 @@ function animate() {
 
             setTimeout(() => {
                 game.active = false;
+                console.log("game over")
+                ending.style.display = 'block'
             }, 2000)
 
             createParticles({
