@@ -435,6 +435,8 @@ function animate() {
 animate()
 
 window.addEventListener('keydown', ({ key }) => {
+    if (game.over) return
+    
     switch (key) {
         case 'ArrowLeft':
             keys.arrowLeft.pressed = true
